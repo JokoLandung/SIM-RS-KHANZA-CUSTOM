@@ -1124,6 +1124,7 @@ public final class DlgReg extends javax.swing.JDialog {
         MnGelang5 = new javax.swing.JMenuItem();
         MnGelang6 = new javax.swing.JMenuItem();
         MnGelang7 = new javax.swing.JMenuItem();
+        LembarKlaim = new javax.swing.JMenuItem();
         jSeparator11 = new javax.swing.JPopupMenu.Separator();
         MnRujukan = new javax.swing.JMenu();
         MnRujukMasuk = new javax.swing.JMenuItem();
@@ -4590,6 +4591,22 @@ public final class DlgReg extends javax.swing.JDialog {
         });
         MnLabel.add(MnGelang7);
 
+        LembarKlaim.setBackground(new java.awt.Color(255, 255, 254));
+        LembarKlaim.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        LembarKlaim.setForeground(new java.awt.Color(50, 50, 50));
+        LembarKlaim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        LembarKlaim.setMnemonic('L');
+        LembarKlaim.setText("Lembar Klaim");
+        LembarKlaim.setToolTipText("L");
+        LembarKlaim.setName("LembarKlaim"); // NOI18N
+        LembarKlaim.setPreferredSize(new java.awt.Dimension(200, 26));
+        LembarKlaim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LembarKlaimActionPerformed(evt);
+            }
+        });
+        MnLabel.add(LembarKlaim);
+
         jPopupMenu1.add(MnLabel);
 
         jSeparator11.setBackground(new java.awt.Color(190, 220, 180));
@@ -6560,7 +6577,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass7.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-11-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-12-2023" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -6573,7 +6590,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass7.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-11-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-12-2023" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -6713,7 +6730,7 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(jLabel9);
         jLabel9.setBounds(165, 72, 36, 23);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-11-2023" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-12-2023" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -6747,6 +6764,11 @@ public final class DlgReg extends javax.swing.JDialog {
 
         TNoRM.setHighlighter(null);
         TNoRM.setName("TNoRM"); // NOI18N
+        TNoRM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TNoRMActionPerformed(evt);
+            }
+        });
         TNoRM.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TNoRMKeyPressed(evt);
@@ -7055,6 +7077,11 @@ public final class DlgReg extends javax.swing.JDialog {
         Scroll.setComponentPopupMenu(jPopupMenu1);
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
+        Scroll.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                ScrollComponentHidden(evt);
+            }
+        });
 
         tbPetugas.setToolTipText("Klik data di table, kemudian klik kanan untuk memilih menu yang diinginkan");
         tbPetugas.setComponentPopupMenu(jPopupMenu1);
@@ -8368,6 +8395,8 @@ public final class DlgReg extends javax.swing.JDialog {
                 }
             }else if(evt.getKeyCode()==KeyEvent.VK_L){
                 MnBarcodeRM9ActionPerformed(null);
+            }else if(evt.getKeyCode()==KeyEvent.VK_L){
+                LabelRekamMedis10ActionPerformed(null);
             }else if(evt.getKeyCode()==KeyEvent.VK_Z){
                 MnSPBK1ActionPerformed(null);
             }else if(evt.getKeyCode()==KeyEvent.VK_W){
@@ -11012,7 +11041,34 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             this.setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_MnBarcodeRM9ActionPerformed
-
+    private void LabelRekamMedis10ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, data pasien sudah habis...!!!!");
+            TNoRM.requestFocus();
+        }else if(TPasien.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu data pasien dengan menklik data pada table...!!!");
+            tbPetugas.requestFocus();
+        }else{
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            Map<String, Object> param = new HashMap<>();
+            param.put("namars",akses.getnamars());
+            param.put("alamatrs",akses.getalamatrs());
+            param.put("kotars",akses.getkabupatenrs());
+            param.put("propinsirs",akses.getpropinsirs());
+            param.put("kontakrs",akses.getkontakrs());
+            param.put("emailrs",akses.getemailrs());
+            param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
+            Valid.MyReportqry("rptBarcodeRM18.jasper","report","::[ Label Rekam Medis ]::","select pasien.no_rkm_medis, pasien.nm_pasien, pasien.no_ktp, pasien.jk, "+
+                "pasien.tmp_lahir, pasien.tgl_lahir,pasien.nm_ibu, concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamat, pasien.gol_darah, pasien.pekerjaan,"+
+                "pasien.stts_nikah,pasien.agama,pasien.tgl_daftar,pasien.no_tlp,pasien.umur,"+
+                "pasien.pnd, pasien.keluarga, pasien.namakeluarga,penjab.png_jawab,pasien.pekerjaanpj,"+
+                "concat(pasien.alamatpj,', ',pasien.kelurahanpj,', ',pasien.kecamatanpj,', ',pasien.kabupatenpj) as alamatpj from pasien "+
+                "inner join kelurahan inner join kecamatan inner join kabupaten "+
+                "inner join penjab on pasien.kd_pj=penjab.kd_pj and pasien.kd_kel=kelurahan.kd_kel "+
+                "and pasien.kd_kec=kecamatan.kd_kec and pasien.kd_kab=kabupaten.kd_kab  where pasien.no_rkm_medis='"+TNoRM.getText()+"' ",param);
+            this.setCursor(Cursor.getDefaultCursor());
+        }
+    }
     private void MnLembarRalanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnLembarRalanActionPerformed
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data pasien sudah habis...!!!!");
@@ -14595,6 +14651,44 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         }
     }//GEN-LAST:event_MnCatatanPersalinanActionPerformed
 
+    private void ScrollComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ScrollComponentHidden
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ScrollComponentHidden
+
+    private void TNoRMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TNoRMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TNoRMActionPerformed
+
+    private void LembarKlaimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LembarKlaimActionPerformed
+                                   
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, data pasien sudah habis...!!!!");
+            TNoRM.requestFocus();
+        }else if(TPasien.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu data pasien dengan menklik data pada table...!!!");
+            tbPetugas.requestFocus();
+        }else{
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            Map<String, Object> param = new HashMap<>();
+            param.put("namars",akses.getnamars());
+            param.put("alamatrs",akses.getalamatrs());
+            param.put("kotars",akses.getkabupatenrs());
+            param.put("propinsirs",akses.getpropinsirs());
+            param.put("kontakrs",akses.getkontakrs());
+            param.put("emailrs",akses.getemailrs());
+            param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
+            Valid.MyReportqry("rptBarcodeRM18.jasper","report","::[ Label Rekam Medis ]::","select pasien.no_rkm_medis, pasien.nm_pasien, pasien.no_ktp, pasien.jk, "+
+                "pasien.tmp_lahir, pasien.tgl_lahir,pasien.nm_ibu, concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamat, pasien.gol_darah, pasien.pekerjaan,"+
+                "pasien.stts_nikah,pasien.agama,pasien.tgl_daftar,pasien.no_tlp,pasien.umur,"+
+                "pasien.pnd, pasien.keluarga, pasien.namakeluarga,penjab.png_jawab,pasien.pekerjaanpj,"+
+                "concat(pasien.alamatpj,', ',pasien.kelurahanpj,', ',pasien.kecamatanpj,', ',pasien.kabupatenpj) as alamatpj from pasien "+
+                "inner join kelurahan inner join kecamatan inner join kabupaten "+
+                "inner join penjab on pasien.kd_pj=penjab.kd_pj and pasien.kd_kel=kelurahan.kd_kel "+
+                "and pasien.kd_kec=kecamatan.kd_kec and pasien.kd_kab=kabupaten.kd_kab  where pasien.no_rkm_medis='"+TNoRM.getText()+"' ",param);
+            this.setCursor(Cursor.getDefaultCursor());
+        }              
+    }//GEN-LAST:event_LembarKlaimActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -14656,6 +14750,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private widget.TextBox Kelurahan2;
     private widget.Label LCount;
     private widget.Label LabelCatatan;
+    private javax.swing.JMenuItem LembarKlaim;
     private javax.swing.JMenu MenuInputData;
     private javax.swing.JMenu MenuInputData1;
     private javax.swing.JMenu MnAwalKeperawatan;
